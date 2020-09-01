@@ -5,6 +5,7 @@ import store from './store'
 import Vuesax from 'vuesax'
 
 import 'vuesax/dist/vuesax.css' //Vuesax styles
+import './registerServiceWorker'
 Vue.use(Vuesax)
 
 Vue.config.productionTip = false
