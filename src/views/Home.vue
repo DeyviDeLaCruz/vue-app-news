@@ -15,7 +15,7 @@
       </vs-col>
     </vs-row>
     <vs-row>
-      <vs-col lg="3" sm="4" xs="12" v-for="(article, index) in news" :key="index">
+      <vs-col lg="3" sm="4" xs="12" v-for="(article, index) in searchArticle" :key="index">
         <vs-card @click="openUrl(article.url)" >
           <template #title>
             <h3>{{ article.texto }}</h3>
@@ -50,13 +50,7 @@ export default {
   name: 'Home',
   data() {
     return {
-      news: [
-        {
-          img: '',
-          url: '',
-          texto: ''
-        }
-      ],
+      noticias: [],
       search: ''
     }
   },
@@ -66,12 +60,19 @@ export default {
   methods: {
     getNews() {
       axios.get('https://america-news.herokuapp.com/scraping').then(response => {
-        this.news = response.data
+        Object.values(response.data).forEach(element => {
+          this.noticias.push(element);
+        });
       }).catch(error => console.log(error));
     },
     openUrl(url) {
       window.location.href = url
     }
+  }, 
+  computed: {
+    searchArticle() {
+      return this.noticias.filter(item => item.texto.includes(this.search));
+    }  
   }
 }
 </script>
